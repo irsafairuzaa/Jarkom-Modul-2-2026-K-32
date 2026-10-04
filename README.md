@@ -7,7 +7,7 @@
 ##  Soal 1 Topologi
 Sebagai pusat kesadaran The Mesh, rootkit harus merentangkan koneksinya ke lima gerbang utama (Switch). Tetapkan alamat IP dan default gateway untuk seluruh Entitas, mulai dari para operator (alpha, beta, gamma), penjaga directory (prab, tedd), gerbang penyaring (abbey, penny), hingga repository (obladi, desmond, oblada, molly) sesuai dengan topologi pembagian switch yang dirancang.
 
-![alt text](dokumentasi/topologi.png)
+<img width="795" height="724" alt="topologi" src="https://github.com/user-attachments/assets/25a9476b-dc03-47b5-b852-d86c122c0e52" />
 
 Disini kami membuat router pusat (rootkit) menggunakan debinet untuk gateway seluruh perangkat, yaitu:
 - Operator (Switch 6): alpha, beta, gama
@@ -29,7 +29,7 @@ iptables -t nat -C POSTROUTING -o eth0 -j MASQUERADE 2>/dev/null || iptables -t
 ```
 ### pengujian
 
-(gambar 2.2)
+<img width="481" height="132" alt="2 2 ping google rootkit" src="https://github.com/user-attachments/assets/c724dca1-c0aa-40d9-a4b4-88b5c11784b5" />
 
 Lalu kita melakukan konfigurasi pada setiap node.
 
@@ -194,7 +194,8 @@ echo "nameserver 192.168.122.1" > /etc/resolv.conf
 ```
 
 Lalu dilakukan pengujian lintas jalur
-(gambar3 komunikasi lintas jalur)
+
+<img width="324" height="86" alt="3-komunikasi lintas jalur" src="https://github.com/user-attachments/assets/e564133d-c2e1-49bd-8dcc-6fcbacb3733e" />
 
 ---
 
@@ -260,13 +261,14 @@ named-checkconf
 named-checkzone k32.com /etc/bind/db.k32.com
 service named start
 ```
-(gambar 4.1)
+<img width="282" height="83" alt="4 1 cek bind zona prab" src="https://github.com/user-attachments/assets/b738d784-86e5-41a0-a8c0-e0945495acc6" />
+
 Ditunjukan bahwa zoma sudah sesuai
 
 ```
 ping k32.com
 ```
-(gambar 4.6)
+<img width="399" height="135" alt="4 6 ping k32" src="https://github.com/user-attachments/assets/99aa0098-844f-485e-94e5-5c841e0cef05" />
 
 ping ke k32 berhasil menandakan bahwa DNS resolver bekerja dengan baik
 
@@ -286,7 +288,8 @@ service bind9 restart
 ```
 
 Lalu kita test di node tedd
-(gambar 4.7)
+
+<img width="491" height="110" alt="4 7 ping k32 com di tedd" src="https://github.com/user-attachments/assets/e5a1cb71-1fb3-4e14-bbcf-7d3a78ef4831" />
 
 Kemudian kita ubah urutan resolver semua node non-router menjadi 
 
@@ -297,7 +300,7 @@ Ini dilakukan dengan mengubah up pada configurasi tiap node menjadi
 up echo -e "nameserver 192.227.1.2\nnameserver 192.227.1.3\nnameserver 192.168.122.1" > /etc/resolv.conf
 ```
 
-(gambar 4.4 dan 4.8)
+<img width="398" height="143" alt="4 4 verif sukses dari alpha" src="https://github.com/user-attachments/assets/cbb0a5a4-0894-460d-af0d-42258b43943d" />
 
 Dengan pengujian ini terlihat urutan resolver sudah sesuai dan test dari alpha berhasil
 
@@ -352,7 +355,7 @@ cat /etc/hosts
 getent hosts $(hostname)
 ```
 
-(gambar 5.1)
+<img width="281" height="146" alt="5 1 hostname tiap node" src="https://github.com/user-attachments/assets/95d5512a-333a-4997-8215-afb21e6f8c2b" />
 
 Disini kita mencoba pada node alpha, ditunjukan bahwa hostname sudah sesuai dengan nama node dan hostname sudah dikenali sistem.
 
@@ -365,7 +368,7 @@ dig @192.227.1.2 k32.com SOA +short
 dig @192.227.1.3 k32.com SOA +short
 ```
 
-(gambar 6.1)
+<img width="403" height="47" alt="6 1 ambil serial" src="https://github.com/user-attachments/assets/aaee00dd-d10e-443d-bc9d-28f831cd4318" />
 
 Terlihat bahwa serial SOA pada prab dan tedd sama yaitu `2026100103`
 
@@ -374,7 +377,7 @@ Selanjutnya kita lihat apakah tedd menjawab secara authoritative
 dig @192.227.1.3 k32.com SOA | grep flags
 ```
 
-(gambar 6.2)
+<img width="446" height="34" alt="6 2 tedd jawab authoritative" src="https://github.com/user-attachments/assets/0f743489-f714-4897-ab7f-84c2b9c5a416" />
 
 Terlihat bahwa tedd menjawab secara authoritative dari salinan zona miliknya sendiri.
 
@@ -383,7 +386,7 @@ Terakhir kita pastikan tedd menerima salinan zona dari prab
 ls -l /var/lib/bind/
 ```
 
-(gambar 6.3)
+<img width="314" height="32" alt="6 3 salinan zona di tedd" src="https://github.com/user-attachments/assets/426733a2-81f4-43e9-aefe-369550b93320" />
 
 Terlihat bahwa `db.k32.com` sudah ada di `var/lib/bind/` pada tedd menunjukan file itu hasil zona transfer.
 
@@ -424,7 +427,9 @@ host core.k32.com
 host www.k32.com
 host static.k32.com
 ```
-(gambar 7.1 dan 7.2)
+<img width="280" height="134" alt="7 1 pengujian alpha" src="https://github.com/user-attachments/assets/db990a2c-eb89-4ed7-afa4-b07dc8905df1" />
+
+<img width="275" height="131" alt="7 2 pengujian delta" src="https://github.com/user-attachments/assets/1a7b4bc5-cd81-4910-ae62-bd6dcbb8d359" />
 
 disini vault menjawab 192.227.1.4 dan .5, core menjawab .6 dan .7, www beralias ke penny (192.227.3.2), static beralias ke abbey (192.227.2.2).
 
@@ -520,7 +525,7 @@ named-checkzone 2.227.192.in-addr.arpa /etc/bind/rev.2
 named-checkzone 3.227.192.in-addr.arpa /etc/bind/rev.3
 ```
 
-(gambar 8.1)
+<img width="413" height="101" alt="8 1 prab" src="https://github.com/user-attachments/assets/910b793e-b9e1-423a-8e91-9b8ce897469b" />
 
 Dilanjut dengan deklarasi reverse zone di tedd (slave) pada file /etc/bind/named.conf.local. tambahkan deklarasi untuk menarik salinan ketiga zona reverse dari prab.
 
@@ -548,7 +553,7 @@ Lalu dilakukan pengujian ke prab dan tedd (di alpha)
 for ip in 192.227.2.2 192.227.3.2 192.227.1.4 192.227.1.5 192.227.1.6 192.227.1.7; do echo "== $ip"; dig -x $ip @192.227.1.3 | grep -E "flags|PTR"; done
 ```
 
-(gambar 8.2)
+<img width="946" height="352" alt="8 2 alpha" src="https://github.com/user-attachments/assets/71c69498-325d-4575-bf66-b1e98ddfae7b" />
 
 ---
 
@@ -595,14 +600,16 @@ apache2ctl configtest
 service apache2 restart
 ```
 
-(gambar 9.12 bukti)
+<img width="268" height="66" alt="9 12" src="https://github.com/user-attachments/assets/9d6e2c35-31f3-487b-a138-117d5d92cb28" />
 
 Kemudian kita uji node obladi dan desmond
 ```
 curl -s http://vault.k32.com/arsip/ | grep -E "Index of|file"
 ```
 
-(gambar 9.10 dan 9.11 atau take ulang)
+<img width="268" height="66" alt="9 12" src="https://github.com/user-attachments/assets/da47bf73-0c79-46d9-97c3-34ae01e27e6b" />
+
+<img width="489" height="100" alt="9 11 curl desmind" src="https://github.com/user-attachments/assets/57620c5a-e634-410a-92d5-ff0bd8d598fa" />
 
 Lalu kita uji lewat hostname dari klienn alpha
 ```
@@ -611,7 +618,12 @@ curl http://vault.k32.com/arsip/
 curl http://vault.k32.com/arsip/file1.txt
 ```
 
-(gambar 9.13.1,2,3)
+<img width="232" height="35" alt="9 13 1" src="https://github.com/user-attachments/assets/faa65e75-bec6-4edb-aa2c-92d426cf0a92" />
+
+<img width="947" height="244" alt="9 13 2" src="https://github.com/user-attachments/assets/14594010-5482-470e-a7b0-31c4362be7eb" />
+
+<img width="335" height="22" alt="9 13 3" src="https://github.com/user-attachments/assets/19433897-0a12-47c1-9705-bf7225612eca" />
+
 
 ---
 
@@ -683,25 +695,26 @@ curl http://localhost/profil
 curl http://localhost/profil.php
 ```
 
-(gambar 10.7)
-
-Disini nginx ............
+<img width="387" height="71" alt="10 7" src="https://github.com/user-attachments/assets/1ecfed2c-e6ce-4fa1-b4fa-c4854b6140a9" />
 
 Lanjut dengan uji lewat hostname dari alpha
 ```
 host core.k32.com
-curl http://core.k32.com/
-curl http://core.k32.com/profil
-curl http://oblada.k32.com/profil
-curl http://molly.k32.com/profil
+lynx http://core.k32.com/
+lynx http://core.k32.com/profil
+lynx http://oblada.k32.com/profil
+lynx http://molly.k32.com/profil
 ```
-*kalo bisa pake command lynx
 
-(gambar 10.8.1-5)
+<img width="224" height="32" alt="10 8" src="https://github.com/user-attachments/assets/c280a8fb-dcf7-48b8-9d2b-8859de57c9c4" />
 
-Hasil uji:
+<img width="491" height="143" alt="10 8 2" src="https://github.com/user-attachments/assets/e80bb08d-5f55-465c-8671-10fc3d269366" />
 
-host core.k32.com ..........
+<img width="491" height="113" alt="10 8 3" src="https://github.com/user-attachments/assets/abd05a73-5588-4511-9b9b-41c14173d257" />
+
+<img width="487" height="97" alt="10 8 4" src="https://github.com/user-attachments/assets/be9b6ba6-7e71-4bfe-ab3e-dea62281bcb4" />
+
+<img width="494" height="106" alt="10 8 5" src="https://github.com/user-attachments/assets/d33a02d0-4e05-4ee4-9dab-2aeb79199f46" />
 
 ## Soal 11
 Konfigurasikan Penny (menggunakan Apache) sebagai reverse proxy yang mengarah ke semua node di area vault (Obladi & Desmond). Sementara itu, konfigurasikan Abbey (menggunakan Nginx) sebagai reverse proxy menuju area core (Oblada & Molly). Pastikan kedua gerbang ini meneruskan identitas asli pengunjung ke server backend dengan melakukan forwarding header Host dan X-Real-IP. Buktikan bahwa Penny dan Abbey berhasil mendistribusikan lalu lintas dengan tepat.
@@ -755,7 +768,7 @@ host www.k32.com
 host static.k32.com
 ```
 
-(gambar 11.7)
+<img width="278" height="66" alt="11 7" src="https://github.com/user-attachments/assets/07aaccd3-a5e7-4d69-8ecc-c0d4e61ce1b5" />
 
 - pembagian lalu lintas
 ```
@@ -766,9 +779,7 @@ curl -s http://static.k32.com/
 
 ```
 
-(ulang 6x)
-
-(gambar 11.8)
+<img width="534" height="53" alt="11 8" src="https://github.com/user-attachments/assets/e1015ceb-d0ff-45d7-8be0-ec35ed3a8200" />
 
 Terlihat hasilnya ada "dilayani oleh" yang bergantian antara oblada dan molly. Ini menunjukan bahwa abbey membagi lalu lintas ke dua backend. Kalau hanya ada satu nama yang muncul, berarti salah satu backend nya mati. Kalau 502, berarti semua backend tidak terjangkau.
 
@@ -816,9 +827,7 @@ Lalu lakukan pengujian di alpha
 curl -s http://www.k32.com/arsip/file1.txt
 ```
 
-(ulang 6x)
-
-(gambar 11.9)
+<img width="340" height="88" alt="11 9" src="https://github.com/user-attachments/assets/d95553cb-ec5d-465e-b964-9433fd4c04a5" />
 
 Ini juga akan menunjukan lalulintas yang dibagi ke dua backend yaitu obladi dan desmond.
 
@@ -833,7 +842,9 @@ tail -n 3 /var/log/apache2/access.log
 tail -n 3 /var/log/nginx/access.log
 ```
 
-(gambar 11.10.1 dan 2)
+<img width="618" height="32" alt="11 10 1" src="https://github.com/user-attachments/assets/5a1b7679-cdef-4334-9d69-5025da73cacc" />
+
+<img width="520" height="44" alt="11 10 2" src="https://github.com/user-attachments/assets/5854ee1c-b91a-4132-a850-92a7df1bd4c0" />
 
 Terlihat kolom bukan diisi dengan penny atau abbey, melainkan IP 192.227.4.2 (IP alpha). Membuktikan kalau X-Real-IP diteruskan dan dipakai backend.
 
@@ -881,7 +892,12 @@ curl -i -u 'prabs:salah' http://www.k32.com/admin
 curl -i -u 'prabs' http://www.k32.com/admin
 ```
 
-(gambar 12.6.1-3)
+<img width="538" height="241" alt="12 6" src="https://github.com/user-attachments/assets/6f3f1e63-f577-4052-b806-635278c403bc" />
+
+<img width="545" height="241" alt="12 6 2" src="https://github.com/user-attachments/assets/00f0ca5a-a5b9-4a19-b153-05b3af2b027a" />
+
+<img width="545" height="188" alt="12 6 3" src="https://github.com/user-attachments/assets/228e538e-d391-4bc5-aeb5-679c53ec9f2a" />
+
 Hasil pertama pengunjung tanpa kredensial ditolak. Kedua, pengunjung yang passwordnya salah juga ditolak. Ketiga, pengunjung dengan kredensial yang sesuai autentikasi nya lolos dan request diteruskan ke obladi/ desmond.
 
 ---
@@ -936,7 +952,11 @@ curl -i http://abbey.k32.com/
 curl -i http://static.k32.com/
 ```
 
-(gambar 13.1.1-3)
+<img width="252" height="176" alt="13 1 1" src="https://github.com/user-attachments/assets/2fe9ef98-b097-4456-bd89-8c6df90fdfd3" />
+
+<img width="262" height="175" alt="13 1 2" src="https://github.com/user-attachments/assets/adab33f5-7e6a-4f2b-9bf6-3c0f110919bf" />
+
+<img width="266" height="99" alt="13 1 3" src="https://github.com/user-attachments/assets/399c3a88-59d9-44ae-882a-723918a47d5e" />
 
 Terlihat hasil pertama dan kedua adalah 302 Found dengan `Location: http://static.k32.com/` yang artinya IP dan nama non kanonik dialihkan sementara. Lalu hasil yang ketiga 200 yang artinya nama kanonik dilayani.
 
@@ -1004,7 +1024,11 @@ curl -i http://penny.k32.com/
 curl -i http://www.k32.com/arsip/file1.txt
 ```
 
-(gambar 13.2.1-3)
+<img width="549" height="188" alt="13 2 1" src="https://github.com/user-attachments/assets/8140fe17-034e-4696-b224-c60195d5280c" />
+
+<img width="544" height="188" alt="13 2 2" src="https://github.com/user-attachments/assets/a69b65b7-5e3a-456d-a159-e041b494fb81" />
+
+<img width="345" height="119" alt="13 2 3" src="https://github.com/user-attachments/assets/330544a8-c594-4a50-b542-149c73318a60" />
 
 Terlihat hasil yang pertama dan kedua adalah 301 Moved Permanently dengan `Location: http://www.k32.com/`, dan hasil yang ketiga 200 beserta isi file berarti nama kanonik tetap dilayani dan proxy nya aman.
 
@@ -1061,14 +1085,11 @@ real_ip_header X-Real-IP;
 tail -n 3 /var/log/apache2/access.log     (obladi, desmond)
 tail -n 3 /var/log/nginx/access.log       (oblada, molly)
 ```
-(gambar 14.3.1-2)
+<img width="625" height="42" alt="14 3" src="https://github.com/user-attachments/assets/d0a0dd44-2cba-466a-939c-2a93932f63ee" />
+
+<img width="521" height="43" alt="14 3 2" src="https://github.com/user-attachments/assets/cfc7d951-75e7-49ba-8b7f-69c9041e8761" />
 
 kolom IP paling kiri berisi 192.227.4.2 (alpha), bukan 192.227.3.2 atau 192.227.2.2. Berarti backend memakai IP asli dari header.
-
-* catatan (hapus nanti)
-Backend	Gerbang	IP di log sebelum	IP di log sesudah
-obladi, desmond	penny	192.227.3.2	192.227.4.2
-oblada, molly	abbey	192.227.2.2	192.227.4.2
 
 ---
 
@@ -1126,7 +1147,7 @@ Terakhir kita uji dari alpha
 curl -i http://www.k32.com/eternal/
 ```
 
-(gambar 15.2)
+<img width="359" height="90" alt="15 2 curl eternal" src="https://github.com/user-attachments/assets/bf7a50f1-a438-4b85-88d4-adda036809f6" />
 
 Terlihat hasilnya menampilkan header "eternal" dan isinya bukan kode php tapi "PHP dijalankan langsung oleh penny" yang artinya PHP dirender oleh penny.
 
@@ -1158,6 +1179,6 @@ Terakhir kita uji dari alpha
 curl -i http://static.k32.com/orion/
 ```
 
-(gambar 15.3)
+<img width="307" height="133" alt="15 3 curl orion" src="https://github.com/user-attachments/assets/d1c796ee-e002-4279-a9e1-acc84f2e59aa" />
 
 Terlihat `/orion/` menjawab 200 OK dengan server nginx dan header  "Orion" dan isinya "dilayani langsung oleh abbey" artinya abbey menjawab sendiri.
